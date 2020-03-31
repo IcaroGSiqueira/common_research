@@ -1,0 +1,16 @@
+
+qp fixo vp9 e av1 
+
+--best --tune=psnr --end-usage=q -b 10 --min-gf-interval=16 --max-gf-interval=16
+
+--best(?) ~~ --good
+
+multipass vp9 e av1
+
+--best --tune=psnr --end-usage=vbr --passes=2 -b 10 --min-gf-interval=16 --max-gf-interval=16 --min-q=0 --max-q=63
+
+av1 sem multithread
+
+
+./aomenc -p 1 -t 1 --psnr -v --fps=50/1 -w 416 -h 240 --min-q=%s --max-q=%s --limit=50 --good --tune=psnr --end-usage=q --min-gf-interval=16 --max-gf-interval=16 -b 8 -o /home/icaro/Documents/TesteAV1/%s /home/icaro/origCfP/%s 2> /home/icaro/Documents/TesteAV1/%s
+

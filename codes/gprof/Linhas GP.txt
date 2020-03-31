@@ -1,0 +1,46 @@
+InterSearch::xPatternSearch -- IME search 				
+InterSearch::xPatternSearchIntRefine -- IME search 		
+InterSearch::xTZSearch -- IME search 					
+InterSearch::xPatternSearchFast -- IME search 			
+
+xPatternRefinement -- FME search 						
+
+xExtDIFUpSamplingQ -- FME interp Q 						
+xExtDIFUpSamplingH -- FME interp H 						
+
+xGetHADs -- Intra Search  (*fazer for backwards e parar qndo encontrar ---- tem q somar cada intrasearch)
+
+InterPrediction::motionCompensation -- MC 				
+
+InterSearch::xEstimateAffineAMVP -- AMVP 				
+xEstimateMvPredAMVP -- AMVP 							
+
+xCheckRDCostMerge2Nx2N -- Merge (*fazer for forward e parar qndo encontrar --- tem q subtrair tempo da MC)
+
+TrQuant::xQuant -- Q 									
+														
+TrQuant::xDeQuant -- IQ 								
+
+TrQuant::xT -- T 										
+TrQuant::xTransformSkip -- T 							
+													
+TrQuant::xITransformSkip --IT 							
+TrQuant::xIT -- IT 										
+
+EncSampleAdaptiveOffset::SAOProcess -- Filter 	
+EncAdaptiveLoopFilter::ALFProcess	-- Filter 
+
+
+EncCu::xCheckRDCostIntra
+
+EncCu::xCheckRDCostAffineMerge2Nx2N
+EncCu::xCheckRDCostMergeTriangle2Nx2N
+
+EncCu::xReuseCachedResult
+
+EncCu::xCheckRDCostInterIMV
+EncCu::xCheckRDCostInter
+
+InterSearch::predInterSearch
+
+
