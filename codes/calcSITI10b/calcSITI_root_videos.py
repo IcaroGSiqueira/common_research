@@ -71,7 +71,7 @@ def getYFrame(video,w,h, bit10 = False):
 
 outFile_all.write('video;max(SI);max(TI);mean(SI);mean(TI)\n')
 
-videos = ["Tango2_3840x2160_60fps_10bit_420.yuv","SlideShow_1280x720_20fps_8bit_420.yuv","ParkRunning3_3840x2160_50fps_10bit_420.yuv","MarketPlace_1920x1080_60fps_10bit_420.yuv","CatRobot_3840x2160_60fps_10bit_420.yuv","Campfire_3840x2160_30fps_10bit_420.yuv","BasketballDrillText_832x480_50fps_8bit_420.yuv","ArenaOfValor_1920x1080_60fps_8bit_420.yuv","NetflixRitualDance_4096x2160_60fps_10bit_420.y4m","DaylightRoad2_3840x2160_60fps_10bit_420.yuv","FoodMarket4_3840x2160_60fps_10bit_420.yuv","KristenAndSara_1280x720_60fps_8bit_420.y4m"]
+videos = ["BasketballDrill_832x480_50.yuv","BasketballDrive_1920x1080_50.yuv","BasketballPass_416x240_50.yuv","PartyScene_832x480_50.yuv","BlowingBubbles_416x240_50.yuv","RaceHorses_416x240_30.yuv","RaceHorses_832x480_30.yuv","BQMall_832x480_60.yuv","BQSquare_416x240_60.yuv","BQTerrace_1920x1080_60.yuv","SlideEditing_1280x720_30.yuv","Cactus_1920x1080_50.yuv","FourPeople_1280x720_60.yuv","Johnny_1280x720_60.yuv"]
 
 for v in videos:
 	if '.yuv' not in v: continue
@@ -79,7 +79,7 @@ for v in videos:
 	print("Video: "+ v)
 	
 	#video = open(os.path.join(yuv_dir, v),'rb')
-	video = open('/home/grellert/videos/vvc_sets' + v,'rb')
+	video = open('/videos' + v,'rb')
 
 	w = int((v.split('_')[1]).split('x')[0])
 	h =  int((v.split('_')[1]).split('x')[1])
