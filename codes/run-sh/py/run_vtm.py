@@ -44,7 +44,6 @@ outpath = "output_VTM"
 homepath = "/home/grellert"
 yuvpath = "/home/grellert/videos/vvc_sets"
 #outpath = "output_VTM"
-binpath = "encoders/vtm9.1/bin" #partindo da homepath
 confpath = "encoders/vtm9.1/cfg"
 
 
@@ -52,18 +51,22 @@ if OPT == 1:
 	simd = "AVX2"
 	if gprof == 0:
 		#bina = "EncoderAppStatic_std"
+		binpath = "encoders/vtm9.1/bin" #partindo da homepath
 		bina = "EncoderAppStatic"
 		inf = "OPT"
 	else:
+		binpath = "encoders/vtm9.1/build_gprof" #partindo da homepath
 		bina = "EncoderAppStaticd"
 		inf = "gprof_OPT"
 else:
 	simd = "SCALAR"
 	if gprof == 0:
 		#bina = "EncoderAppStatic_std"
+		binpath = "encoders/vtm9.1/bin" #partindo da homepath
 		bina = "EncoderAppStatic"
 		inf = "noOPT"
 	else:
+		binpath = "encoders/vtm9.1/build_gprof" #partindo da homepath
 		bina = "EncoderAppStaticd"
 		inf = "gprof_noOPT"
 
