@@ -2,8 +2,6 @@ import os
 
 f = 8 # numero de frames
 
-gitpull = 1 # backup automatico para o git
-
 #[37,32,27,22]
 
 qps = [22,27,32,37]
@@ -17,7 +15,7 @@ minqs = [8,16,32]
 OPT = 0 # optimizacoes ligadas = 1
 gprof = 1
 
-threads = 5 # numero de processos em parelelo
+threads = 4 # numero de processos em parelelo
 
 shpath = "git_repo/common_research/codes/run-sh/vtm"
 filename = "run_vtm.sh"
@@ -35,11 +33,18 @@ filename = "run_vtm.sh"
 yuvs = ["BlowingBubbles_416x240_50fps_8bit_420.yuv", "RaceHorses_832x480_30fps_8bit_420"]	#VVC
 
 
-homepath = "/home/icaro"
-yuvpath = "/home/icaro/Videos"
+#homepath = "/home/icaro"
+#yuvpath = "/home/icaro/Videos"
 outpath = "output_VTM"
-binpath = "VVCSoftware_VTM/bin" #partindo da homepath
-confpath = "VVCSoftware_VTM/cfg"
+#binpath = "VVCSoftware_VTM/bin" #partindo da homepath
+#confpath = "VVCSoftware_VTM/cfg"
+
+homepath = "/home/grellert"
+yuvpath = "/home/grellert/Videos/vvc_sets"
+#outpath = "output_VTM"
+binpath = "encoders/VVCSoftware_VTM/bin" #partindo da homepath
+confpath = "encoders/VVCSoftware_VTM/cfg"
+
 
 if OPT == 1:
 	simd = "AVX2"
@@ -105,9 +110,6 @@ for conf in confs:
 				else:
 					info = "%sqp_%sfframes_"%(qp,f) + inf
 
-
-				#qp = map(float,qp) !!--end-usage=q!!--AVALIAR
-
 				if gprof == 1:
 					linha = "%s/%s/%s -c %s/%s/%s -i \"%s/%s\" -fr %s -wdt %s -hgt %s -q %s -f %s --MinQTLumaISlice=%s --MinQTChromaISliceInChromaSamples=%s --MinQTNonISlice=%s --InputBitDepth=%s --SIMD=%s -b \"%s/%s/bin/%s_%s.bin\" > %s/%s/out/%s_%s.txt"%(homepath,binpath,bina,homepath,confpath,conf,yuvpath,yuv,fr,w,h,qp,f,minq,minq/2,minq,b,simd,homepath,outpath,nome,info,homepath,outpath,nome,info)
 
@@ -121,9 +123,8 @@ for conf in confs:
 					try:
 						test = open("%s/%s/%s"%(homepath,shpath,filename),"r")
 						tlines = test.readlines()
-						print tline
 						tline = tlines[0]
-						if linha == tline:
+						if linha not in tline:
 							print >> file, linha + " && " + linha4
 					except:
 						print >> file, linha + " && " + linha2 + " && " + linha3 + " && " + linha4

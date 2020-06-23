@@ -66,12 +66,16 @@ def getYFrame(video,w,h, bit10 = False):
 #yuv_dir = '/home/grellert/videos/vvc_sets'
 #videos = os.listdir(yuv_dir)
 
-#outFile_all = open('SITI_all.csv','w')
+outFile_all = open('SITI_all.csv','w')
 #print('video;max(SI);max(TI);mean(SI);mean(TI)', file = outFile_all)
 
 outFile_all.write('video;max(SI);max(TI);mean(SI);mean(TI)\n')
 
-videos = ["Tango2_3840x2160_60fps_10bit_420.yuv","SlideShow_1280x720_20fps_8bit_420.yuv","ParkRunning3_3840x2160_50fps_10bit_420.yuv","MarketPlace_1920x1080_60fps_10bit_420.yuv","CatRobot_3840x2160_60fps_10bit_420.yuv","Campfire_3840x2160_30fps_10bit_420.yuv","BasketballDrillText_832x480_50fps_8bit_420.yuv","ArenaOfValor_1920x1080_60fps_8bit_420.yuv","NetflixRitualDance_4096x2160_60fps_10bit_420.y4m","DaylightRoad2_3840x2160_60fps_10bit_420.yuv","FoodMarket4_3840x2160_60fps_10bit_420.yuv","KristenAndSara_1280x720_60fps_8bit_420.y4m"]
+videos = ["Campfire_3840x2160_30fps_bt709_420_videoRange.yuv","CatRobot_3840x2160_60fps_10bit_420_jvet.yuv","DaylightRoad2_3840x2160_60fps_10bit_420.yuv","FoodMarket4_3840x2160_60fps_10bit_420.yuv","ParkRunning3_3840x2160_50fps_10bit_420.yuv"]
+
+#videos = ["Campfire_3840x2160_30fps_10bit_420.yuv","CatRobot_3840x2160_60fps_10bit_420.yuv","FoodMarket4_3840x2160_60fps_10bit_420.yuv","ParkRunning3_3840x2160_50fps_10bit_420.yuv","Tango2_3840x2160_60fps_10bit_420.yuv","SlideShow_1280x720_20fps_8bit_420.yuv","MarketPlace_1920x1080_60fps_10bit_420.yuv","BasketballDrillText_832x480_50fps_8bit_420.yuv","ArenaOfValor_1920x1080_60fps_8bit_420.yuv","NetflixRitualDance_4096x2160_60fps_10bit_420.y4m","DaylightRoad2_3840x2160_60fps_10bit_420.yuv","KristenAndSara_1280x720_60fps_8bit_420.y4m"]
+
+#videos = ["Tango2_3840x2160_60fps_10bit_420.yuv","SlideShow_1280x720_20fps_8bit_420.yuv","MarketPlace_1920x1080_60fps_10bit_420.yuv","BasketballDrillText_832x480_50fps_8bit_420.yuv","ArenaOfValor_1920x1080_60fps_8bit_420.yuv","NetflixRitualDance_4096x2160_60fps_10bit_420.y4m","KristenAndSara_1280x720_60fps_8bit_420.y4m"]
 
 for v in videos:
 	if '.yuv' not in v: continue
@@ -79,7 +83,8 @@ for v in videos:
 	print("Video: "+ v)
 	
 	#video = open(os.path.join(yuv_dir, v),'rb')
-	video = open('/home/grellert/videos/vvc_sets' + v,'rb')
+	#video = open('/home/grellert/videos/vvc_sets/' + v,'rb')
+	video = open('/run/user/1001/gvfs/sftp:host=gacig3.inf.ufpel.edu.br,port=50000,user=matheuslin/data/videos/4k_jvet/' + v,'rb')
 
 	w = int((v.split('_')[1]).split('x')[0])
 	h =  int((v.split('_')[1]).split('x')[1])
@@ -101,8 +106,8 @@ for v in videos:
 		if frameIdx % 10 == 0:
 			print("\tFrame #:",frameIdx)
 
-		if frameIdx > numf:
-			break
+		#if frameIdx > numf:
+		#	break
 
 	video.close()
 	vetSI = np.array(vetSI)
