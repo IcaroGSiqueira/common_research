@@ -17,8 +17,10 @@ gprof = 1
 
 threads = 4 # numero de processos em parelelo
 
-shpath = "git_repo/common_research/codes/run-sh/vtm"
+#shpath = "git_repo/common_research/codes/run-sh/vtm"
 filename = "run_vtm.sh"
+
+shpath = "pesquisa_av1/common_research/codes/run-sh/vtm"
 
 #yuvs = ["BasketballPass_416x240_50fps_8bit_420.yuv","BasketballDrillText_832x480_50fps_8bit_420.yuv","SlideShow_1280x720_20fps_8bit_420.yuv","Cactus_1920x1080_50fps_8bit_420.yuv","Campfire_3840x2160_30fps_10bit_420.yuv"] #gprofiling
 
@@ -40,10 +42,10 @@ outpath = "output_VTM"
 #confpath = "VVCSoftware_VTM/cfg"
 
 homepath = "/home/grellert"
-yuvpath = "/home/grellert/Videos/vvc_sets"
+yuvpath = "/home/grellert/videos/vvc_sets"
 #outpath = "output_VTM"
-binpath = "encoders/VVCSoftware_VTM/bin" #partindo da homepath
-confpath = "encoders/VVCSoftware_VTM/cfg"
+binpath = "encoders/vtm9.1/bin" #partindo da homepath
+confpath = "encoders/vtm9.1/cfg"
 
 
 if OPT == 1:
