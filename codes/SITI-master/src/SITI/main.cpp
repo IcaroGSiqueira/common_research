@@ -39,13 +39,12 @@ typedef std::tuple<int, double, double> TSTD;
 #endif
 
 
-bool readYUV420(cv::Mat &mat, FILE *vf, unsigned char *buffer, bool is10bit = 0) {
+bool readYUV420(cv::Mat &mat, FILE *vf, unsigned char *buffer) {
 	// -----------------------------------------------------------
 	// Pix Format: YUV420p
 
 	if(vf == NULL) return false;
-	int read_unit = is10bit ? 2 : 1; // reading 16 bits for 10-bit YUVs
-	if(fread(mat.data, read_unit, mat.cols*mat.rows, vf) != (mat.cols*mat.rows)) {
+	if(fread(mat.data, 1, mat.cols*mat.rows, vf) != (mat.cols*mat.rows)) {
 		fclose(vf);
 		vf = NULL;
 		return false;
@@ -60,16 +59,13 @@ bool readYUV420(cv::Mat &mat, FILE *vf, unsigned char *buffer, bool is10bit = 0)
 }
 
 
-bool readYUV422(cv::Mat &mat, FILE *vf, unsigned char *buffer, bool is10bit = 0) {
+bool readYUV422(cv::Mat &mat, FILE *vf, unsigned char *buffer) {
 
 	// -----------------------------------------------------------
 	// Pix Format: YUV422p
 
 	if(vf == NULL) return false;
-	
-	int read_unit = is10bit ? 2 : 1; // reading 16 bits for 10-bit YUVs
-
-	if(fread(mat.data, read_unit, mat.cols*mat.rows, vf) != (mat.cols*mat.rows)) {
+	if(fread(mat.data, 1, mat.cols*mat.rows, vf) != (mat.cols*mat.rows)) {
 		fclose(vf);
 		vf = NULL;
 		return false;
@@ -85,17 +81,15 @@ bool readYUV422(cv::Mat &mat, FILE *vf, unsigned char *buffer, bool is10bit = 0)
 	return true;
 }
 
-bool readYUYV422(cv::Mat &mat, FILE *vf, unsigned char *buffer, bool is10bit = 0) {
+bool readYUYV422(cv::Mat &mat, FILE *vf, unsigned char *buffer) {
 
 	// -----------------------------------------------------------
 	// Pix Format: YUYV422
 
 	if(vf == NULL) return false;
-	int read_unit = is10bit ? 2 : 1; // reading 16 bits for 10-bit YUVs
-
 	unsigned char buf[4];
 	for(int i = 0 ; i < mat.cols*mat.rows / 2 ; ++i) {
-		if(fread(buf, read_unit, 4, vf) != 4) {
+		if(fread(buf, 1, 4, vf) != 4) {
 			fclose(vf);
 			vf = NULL;
 			return false;
@@ -109,18 +103,15 @@ bool readYUYV422(cv::Mat &mat, FILE *vf, unsigned char *buffer, bool is10bit = 0
 }
 
 
-bool readUYVY422(cv::Mat &mat, FILE *vf, unsigned char *buffer, bool is10bit = 0) {
+bool readUYVY422(cv::Mat &mat, FILE *vf, unsigned char *buffer) {
 
 	// -----------------------------------------------------------
 	// Pix Format: YUYV422
 
 	if(vf == NULL) return false;
 	unsigned char buf[4];
-		
-	int read_unit = is10bit ? 2 : 1; // reading 16 bits for 10-bit YUVs
-
 	for(int i = 0 ; i < mat.cols*mat.rows / 2 ; ++i) {
-		if(fread(buf, read_unit, 4, vf) != 4) {
+		if(fread(buf, 1, 4, vf) != 4) {
 			fclose(vf);
 			vf = NULL;
 			return false;
@@ -133,21 +124,20 @@ bool readUYVY422(cv::Mat &mat, FILE *vf, unsigned char *buffer, bool is10bit = 0
 	return true;
 }
 
-bool readYUV444(cv::Mat &mat, FILE *vf, unsigned char *buffer, bool is10bit = 0) {
+bool readYUV444(cv::Mat &mat, FILE *vf, unsigned char *buffer) {
 
 	// -----------------------------------------------------------
 	// Pix Format: YUV444p
 
 	if(vf == NULL) return false;
-	int read_unit = is10bit ? 2 : 1; // reading 16 bits for 10-bit YUVs
-	if(fread(mat.data, read_unit, mat.cols*mat.rows, vf) != (mat.cols*mat.rows)) {
+	if(fread(mat.data, 1, mat.cols*mat.rows, vf) != (mat.cols*mat.rows)) {
 		fclose(vf);
 		vf = NULL;
 		return false;
 	}
 
 	for(int i = 0 ; i < 4 ; ++i) {
-		if(fread(buffer, read_unit, mat.cols*mat.rows/2, vf) != (mat.cols*mat.rows/2)) {
+		if(fread(buffer, 1, mat.cols*mat.rows/2, vf) != (mat.cols*mat.rows/2)) {
 			return false;
 		}
 	}
@@ -198,8 +188,7 @@ int main(int argc, char **argv) {
         ("h,height", "Height of the video (required for yuv).", cxxopts::value<int>())
         ("f,color-format", "(int) Color representation of YUV format (1: YUV420p (default), 2: YUV422, 3: YUYV422 (YUY2), 4: YUYV422 (UYVY), 5: YUV444.", cxxopts::value<int>())
         ("s,summary", "produce summary statistics (maximum, minimum) instead of per-frame information")
-        ("c,check-input", "Show in a window how frames are read")
-		("b,is10bit","Use this flag for 10-bit sequences");
+        ("c,check-input", "Show in a window how frames are read");
 
     try {
         options.parse(argc, argv);
@@ -218,7 +207,6 @@ int main(int argc, char **argv) {
 	bool check      = false;
 	int colorFormat = 1;
 	int frameCount = 0;
-	bool is10bit = false;
 
 	if(options.count("height")) {
 		height = options["height"].as<int>();
@@ -234,10 +222,6 @@ int main(int argc, char **argv) {
 
 	if(options.count("check-input")) {
 		check = true;
-	}
-
-	if(options.count("is10bits")){
-		is10bit = true;
 	}
 
 	if(options.count("color-format")) {
@@ -269,23 +253,23 @@ int main(int argc, char **argv) {
 
 			switch(colorFormat) {
 				case 1:
-					readYUV = std::bind(readYUV420, std::placeholders::_1, f, &buffer[0], is10bit);
+					readYUV = std::bind(readYUV420, std::placeholders::_1, f, &buffer[0]);
 					break;
 
 				case 2:
-					readYUV = std::bind(readYUV422, std::placeholders::_1, f, &buffer[0], is10bit);
+					readYUV = std::bind(readYUV422, std::placeholders::_1, f, &buffer[0]);
 					break;
 
 				case 3:
-					readYUV = std::bind(readYUYV422, std::placeholders::_1, f, &buffer[0], is10bit);
+					readYUV = std::bind(readYUYV422, std::placeholders::_1, f, &buffer[0]);
 					break;
 
 				case 4:
-					readYUV = std::bind(readUYVY422, std::placeholders::_1, f, &buffer[0], is10bit);
+					readYUV = std::bind(readUYVY422, std::placeholders::_1, f, &buffer[0]);
 					break;
 
 				case 5:
-					readYUV = std::bind(readYUV444, std::placeholders::_1, f, &buffer[0], is10bit);
+					readYUV = std::bind(readYUV444, std::placeholders::_1, f, &buffer[0]);
 					break;
 
 				default:
