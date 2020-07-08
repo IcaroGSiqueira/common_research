@@ -66,7 +66,7 @@ def getYFrame(video,w,h, bit10 = False):
 #yuv_dir = '/home/grellert/videos/vvc_sets'
 #videos = os.listdir(yuv_dir)
 
-#outFile_all = open('SITI_all.csv','w')
+outFile_all = open('SITI_all.csv','w')
 #print('video;max(SI);max(TI);mean(SI);mean(TI)', file = outFile_all)
 
 outFile_all.write('video;max(SI);max(TI);mean(SI);mean(TI)\n')
