@@ -39,7 +39,7 @@ threads = 4 # numero de processos em parelelo
 
 yuvs = ["KristenAndSara_1280x720_60fps_8bit_420.yuv","ParkRunning3_3840x2160_50fps_10bit_420.yuv"]	#VVC
 
-yuvs=["BlowingBubbles_416x240_50.yuv"] #test
+#yuvs=["BlowingBubbles_416x240_50.yuv"] #test
 
 homepath = "/home/icaro"
 yuvpath = "/home/icaro/Videos"
@@ -51,12 +51,12 @@ shpath = "git_repo/common_research/codes/run-sh/vtm"
 
 homepath = "/home/grellert"
 yuvpath = "/home/grellert/videos/vvc_sets"
-yuvpath = "/videos"
+#yuvpath = "/videos"
 outpath = "output_VTM"
 encpath = "vtm_6-master/vtm"
 confpath = "encoders/%s/cfg"%encpath
 binpath = "encoders/%s/bin"%encpath #partindo da homepath
-#shpath = "pesquisa_av1/common_research/codes/run-sh/vtm"
+shpath = "pesquisa_av1/common_research/codes/run-sh/vtm"
 
 filename = "run_vtm.sh"
 
