@@ -12,7 +12,7 @@ confs = ["encoder_randomaccess_vtm.cfg"]
 
 minqs = [8,16,32]
 
-OPT = 1 # optimizacoes ligadas = 1
+OPT = 0 # optimizacoes ligadas = 1
 gprof = 0
 
 threads = 4 # numero de processos em parelelo
@@ -184,7 +184,7 @@ if threads >= 1:
 			os.system("mkdir %s/%s/script%d"%(homepath,shpath,x+1))
 		except:
 			pass
-		file2 = open("%s/%s/script%d/%d_%s"%(homepath,shpath,x+1,x+1,inf),"w")
+		file2 = open("%s/%s/script%d/%d_%s.sh"%(homepath,shpath,x+1,x+1,inf),"w")
 		i = x*nqp
 		j=0
 
