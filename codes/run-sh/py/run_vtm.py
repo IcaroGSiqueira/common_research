@@ -1,6 +1,6 @@
 import os
 
-f = 2 # numero de frames
+f = 32 # numero de frames
 
 #[37,32,27,22]
 
