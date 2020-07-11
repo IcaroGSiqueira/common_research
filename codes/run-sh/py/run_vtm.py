@@ -1,6 +1,6 @@
 import os
 
-f = 8 # numero de frames
+f = 2 # numero de frames
 
 #[37,32,27,22]
 
@@ -13,62 +13,73 @@ confs = ["encoder_randomaccess_vtm.cfg"]
 minqs = [8,16,32]
 
 OPT = 0 # optimizacoes ligadas = 1
-gprof = 1
+gprof = 0
 
 threads = 4 # numero de processos em parelelo
 
-#shpath = "git_repo/common_research/codes/run-sh/vtm"
-filename = "run_vtm.sh"
-
-shpath = "pesquisa_av1/common_research/codes/run-sh/vtm"
+#yuvs=[Tennis_1920x1080_24.yuv","ParkScene_1920x1080_24.yuv","Kimono_1920x1080_24.yuv","PeopleOnStreet_2560x1600_30_crop.yuv","Traffic_2560x1600_30_crop.yuv"]#OLD
 
 #yuvs = ["BasketballPass_416x240_50fps_8bit_420.yuv","BasketballDrillText_832x480_50fps_8bit_420.yuv","SlideShow_1280x720_20fps_8bit_420.yuv","Cactus_1920x1080_50fps_8bit_420.yuv","Campfire_3840x2160_30fps_10bit_420.yuv"] #gprofiling
 
 #yuvs = os.listdir("/home/icaro/origCfP")
 
-#yuvs = ["BlowingBubbles_416x240_50.yuv","BQSquare_416x240_60.yuv","BasketballPass_416x240_50.yuv","RaceHorses_416x240_30fps_8bit_420.yuv"] 														#ClasseD
-#yuvs = ["RaceHorses_832x480_30fps_8bit_420","BasketballDrill_832x480_50.yuv","BQMall_832x480_60.yuv","PartyScene_832x480_50.yuv"] 																#ClasseC
-#yuvs = ["FourPeople_1280x720_60.yuv","Johnny_1280x720_60.yuv","SlideEditing_1280x720_30.yuv"] 																							#ClasseE e F
-#yuvs = ["Tennis_1920x1080_24.yuv","ParkScene_1920x1080_24.yuv","BasketballDrive_1920x1080_50.yuv","Kimono_1920x1080_24.yuv","BQTerrace_1920x1080_60.yuv","Cactus_1920x1080_50.yuv"] 	#ClasseB
-#yuvs = ["PeopleOnStreet_2560x1600_30_crop.yuv","Traffic_2560x1600_30_crop.yuv"] 																										#ClasseA
+#yuvs=["Campfire_3840x2160_30fps_10bit_420.yuv","FoodMarket4_3840x2160_60fps_10bit_420.yuv","Tango2_3840x2160_60fps_10bit_420.yuv]#ClasseA1
 
-yuvs = ["BlowingBubbles_416x240_50fps_8bit_420.yuv", "RaceHorses_832x480_30fps_8bit_420"]	#VVC
+#yuvs=["ParkRunning3_3840x2160_50fps_10bit_420.yuv","CatRobot_3840x2160_60fps_10bit_420.yuv","DaylightRoad2_3840x2160_60fps_10bit_420.yuv"]#ClasseA2
 
+#yuvs=["RaceHorses_832x480_30fps_8bit_420","BasketballDrill_832x480_50.yuv","BQMall_832x480_60.yuv","PartyScene_832x480_50.yuv"]#ClasseC
 
-#homepath = "/home/icaro"
-#yuvpath = "/home/icaro/Videos"
+#yuvs=["BlowingBubbles_416x240_50.yuv","BQSquare_416x240_60.yuv","BasketballPass_416x240_50.yuv","RaceHorses_416x240_30fps_8bit_420.yuv"]#ClasseD
+
+#yuvs=["FourPeople_1280x720_60.yuv","Johnny_1280x720_60.yuv","KristenAndSara_1280x720_60fps_8bit_420.yuv"]#ClasseE
+
+#yuvs=[ArenaOfValor_1920x1080_60fps_8bit_420.yuv,"BasketballDrillText_832x480_50fps_8bit_420.yuv","SlideShow_1280x720_20fps_8bit_420.yuv","SlideEditing_1280x720_30.yuv"]#ClasseF
+
+#yuvs=["BasketballDrive_1920x1080_50.yuv","BQTerrace_1920x1080_60.yuv","Cactus_1920x1080_50.yuv","MarketPlace_1920x1080_60fps_10bit_420.yuv","RitualDance_1920x1080_60fps_10bit_420.yuv"]#ClasseB
+
+yuvs = ["KristenAndSara_1280x720_60fps_8bit_420.yuv","ParkRunning3_3840x2160_50fps_10bit_420.yuv"]	#VVC
+
+yuvs=["BlowingBubbles_416x240_50.yuv"] #test
+
+homepath = "/home/icaro"
+yuvpath = "/home/icaro/Videos"
 outpath = "output_VTM"
-#binpath = "VVCSoftware_VTM/bin" #partindo da homepath
-#confpath = "VVCSoftware_VTM/cfg"
+encpath = "vtm9.1"
+confpath = "%s/cfg"%encpath
+binpath = "%s/bin"%encpath #partindo da homepath
+shpath = "git_repo/common_research/codes/run-sh/vtm"
 
 homepath = "/home/grellert"
 yuvpath = "/home/grellert/videos/vvc_sets"
-#outpath = "output_VTM"
-confpath = "encoders/vtm9.1/cfg"
+yuvpath = "/videos"
+outpath = "output_VTM"
+encpath = "vtm_6-master/vtm"
+confpath = "encoders/%s/cfg"%encpath
+binpath = "encoders/%s/bin"%encpath #partindo da homepath
+#shpath = "pesquisa_av1/common_research/codes/run-sh/vtm"
 
+filename = "run_vtm.sh"
 
 if OPT == 1:
 	simd = "AVX2"
 	if gprof == 0:
 		#bina = "EncoderAppStatic_std"
-		binpath = "encoders/vtm9.1/bin" #partindo da homepath
 		bina = "EncoderAppStatic"
 		inf = "OPT"
 	else:
-		binpath = "encoders/vtm9.1/build_gprof" #partindo da homepath
 		bina = "EncoderAppStaticd"
 		inf = "gprof_OPT"
 else:
 	simd = "SCALAR"
 	if gprof == 0:
 		#bina = "EncoderAppStatic_std"
-		binpath = "encoders/vtm9.1/bin" #partindo da homepath
 		bina = "EncoderAppStatic"
 		inf = "noOPT"
 	else:
-		binpath = "encoders/vtm9.1/build_gprof" #partindo da homepath
 		bina = "EncoderAppStaticd"
 		inf = "gprof_noOPT"
+
+#file = open("/home/icaro/git_repo/common_research/codes/run-sh/vtm/%s"%filename,"w")
 
 file = open("%s/%s/%s"%(homepath,shpath,filename),"w")
 
@@ -99,10 +110,18 @@ for conf in confs:
 	for yuv in yuvs:
 		for qp in qps:
 			for minq in minqs:
-				vid,pix,fr,b,dummy = yuv.split("_")
-				b = b.strip("bit")
-				fr = fr.strip("fps")
-				nome = vid+"_"+pix+"_"+fr+"fps"+"_"+b+"bit"
+
+				print(yuv)
+				try:
+					vid,pix,fr,b,dummy = yuv.split("_")
+					b = b.strip("bit")
+					fr = fr.strip("fps")
+					nome = vid+"_"+pix+"_"+fr+"fps"+"_"+b+"bit"
+				except:
+					vid,pix,fr = yuv.split("_")
+					b = "8"
+					fr = fr.strip(".yuv")
+					nome = vid+"_"+pix+"_"+fr+"fps"+"_"+b+"bit"					
 
 				w,h = pix.split("x")
 
@@ -115,43 +134,45 @@ for conf in confs:
 				else:
 					info = "%sqp_%sfframes_"%(qp,f) + inf
 
+				#linha = "%s/%s/%s -c %s/%s/%s -i \"%s/%s\" -fr %s -wdt %s -hgt %s -q %s -f %s --MinQTLumaISlice=%s --MinQTChromaISliceInChromaSamples=%s --MinQTNonISlice=%s --InputBitDepth=%s --SIMD=%s -b \"%s/%s/bin/%s_%s.bin\" "%(homepath,binpath,bina,homepath,confpath,conf,yuvpath,yuv,fr,w,h,qp,f,minq,int(minq/2),minq,b,simd,homepath,outpath,nome,info) # Linha de configuracao da codificacao
+
+				linha = "%s/%s/%s -c %s/%s/%s -i \"%s/%s\" -fr %s -wdt %s -hgt %s -q %s -f %s --InputBitDepth=%s --SIMD=%s -b \"%s/%s/bin/%s_%s.bin\" "%(homepath,binpath,bina,homepath,confpath,conf,yuvpath,yuv,fr,w,h,qp,f,b,simd,homepath,outpath,nome,info) # Linha de configuracao da codificacao
+
+				linha1 = "> %s/%s/out/%s_%s.txt"%(homepath,outpath,nome,info) # linha da saida da codificacao
+
+				# linhas do profiling
+				linha2 = "mv gmon.out %s/%s/gmon/gmon_%s_%s.out"%(homepath,outpath,nome,info)
+				linha3 = "gprof %s/%s/%s %s/%s/gmon/gmon_%s_%s.out > %s/%s/gprof/%s_%s.txt"%(homepath,binpath,bina,homepath,outpath,nome,info,homepath,outpath,nome,info)
+
+				linha4 =  "echo \"%s_%s DONE!\""%(nome,info)
+
+				#VERIFICAR SOBRESCRICAO
 				if gprof == 1:
-					linha = "%s/%s/%s -c %s/%s/%s -i \"%s/%s\" -fr %s -wdt %s -hgt %s -q %s -f %s --MinQTLumaISlice=%s --MinQTChromaISliceInChromaSamples=%s --MinQTNonISlice=%s --InputBitDepth=%s --SIMD=%s -b \"%s/%s/bin/%s_%s.bin\" > %s/%s/out/%s_%s.txt"%(homepath,binpath,bina,homepath,confpath,conf,yuvpath,yuv,fr,w,h,qp,f,minq,minq/2,minq,b,simd,homepath,outpath,nome,info,homepath,outpath,nome,info)
-
-					linha2 = "mv gmon.out %s/%s/gmon/gmon_%s_%s.out"%(homepath,outpath,nome,info)
-
-					linha3 = "gprof %s/%s/%s %s/%s/gmon/gmon_%s_%s.out > %s/%s/gprof/%s_%s.txt"%(homepath,binpath,bina,homepath,outpath,nome,info,homepath,outpath,nome,info)
-
-					linha4 =  "echo \"%s_%s DONE!\""%(nome,info)
-
-					#VERIFICAR SOBRESCRICAO
 					try:
 						test = open("%s/%s/%s"%(homepath,shpath,filename),"r")
 						tlines = test.readlines()
 						tline = tlines[0]
 						if linha not in tline:
-							file.write(linha + " && " + linha4)
+							file.write(linha + linha1 + " && " + linha4 + "\n")
 					except:
-						file.write(linha + " && " + linha2 + " && " + linha3 + " && " + linha4)
-					
-				else:
-					linha = "%s/%s/%s -c %s/%s/%s --InputFile=\"%s/%s\" -fr %s --SourceWidth=%s --SourceHeight=%s -q %s -f %s --InputBitDepth=%s %s --BitstreamFile=\"%s/%s/bin/%s_%s.bin\" > %s/%s/out/%s_%s.txt"%(homepath,binpath,bina,homepath,confpath,conf,yuvpath,yuv,fr,w,h,qp,f,b,simd,homepath,outpath,nome,info,homepath,outpath,nome,info)
-					linha4 =  "echo \"%s_%s DONE!\""%(nome,info)
+						file.write(linha + linha1 + " && " + linha2 + " && " + linha3 + " && " + linha4 + "\n")
 
+				else:	
 					try:
 						test = open("%s/%s/%s_%s.txt"%(homepath,outpath,nome,info),"r")
 						tlines = test.readlines()
 						tline = tlines[-1]
 						if "Total Time" not in tline:
-							print >> file, linha + " && " + linha4
+							file.write(linha + linha1 + " && " + linha4 + "\n")
 					except:
-						print >> file, linha + " && " + linha4
+						file.write(linha + linha1 + " && " + linha4 + "\n")
 
 
 i=0
-if threads != 1:
+if threads >= 1:
 
 	file = open("%s/%s/%s"%(homepath,shpath,filename),"r")
+
 	lines = file.readlines()
 	tam = len(lines)
 	nqp = len(qps)
@@ -163,7 +184,6 @@ if threads != 1:
 			os.system("mkdir %s/%s/script%d"%(homepath,shpath,x+1))
 		except:
 			pass
-
 		file2 = open("%s/%s/script%d/%d_%s"%(homepath,shpath,x+1,x+1,filename),"w")
 		i = x*nqp
 		j=0
@@ -171,7 +191,7 @@ if threads != 1:
 		while i < tam:
 
 			line = lines[i]
-			print >> file2, line
+			file2.write(line)
 
 			i = i+1
 			j = j+1

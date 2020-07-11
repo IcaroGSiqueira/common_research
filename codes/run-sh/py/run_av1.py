@@ -93,7 +93,7 @@ for yuv in yuvs:
 		if gprof == 1:
 			linha = "%s/%s/%s --fps=%s/1 -w %s -h %s --min-q=%s --max-q=%s --limit=%s --rt -b 8 -o %s/%s/bin/%s_%s.bin %s/%s 2> %s/%s/out/%s_%s.txt"%(homepath,binpath,bina,fr,w,h,qp-3,qp+5,f,homepath,outpath,nome,info,yuvpath,yuv,homepath,outpath,nome,info)
 
-			linha2 = "mv %s/%s/gmon.out %s/%s/gmon/gmon_%s_%s.out"%(homepath,shpath,homepath,outpath,nome,info)
+			linha2 = "mv %s/%s/gmon.out %s/%s/gmon/gmon_%s_%s.out "%(homepath,shpath,homepath,outpath,nome,info)
 
 			linha3 = "gprof %s/%s/%s %s/%s/gmon/gmon_%s_%s.out > %s/%s/gprof/%s_%s.txt"%(homepath,binpath,bina,homepath,outpath,nome,info,homepath,outpath,nome,info)
 
@@ -105,9 +105,9 @@ for yuv in yuvs:
 				tlines = test.readlines()
 				tline = tlines[-1]
 				if "Total Time" not in tline:
-					file.write(linha + " && " + linha2 + " && " + linha3 + " && " + linha4)
+					file.write(linha + " && " + linha2 + " && " + linha3 + " && " + linha4 + "\n")
 			except:
-				file.write(linha + " && " + linha2 + " && " + linha3 + " && " + linha4)
+				file.write(linha + " && " + linha2 + " && " + linha3 + " && " + linha4 + "\n")
 		else:
 			linha = "{ time %s/%s/%s --fps=%s/1 -w %s -h %s --min-q=%s --max-q=%s --limit=%s --rt -b 8 -o %s/%s/bin/%s_%s.bin %s/%s ; } 2> %s/%s/out/%s_%s.txt"%(homepath,binpath,bina,fr,w,h,qp-3,qp+5,f,homepath,outpath,nome,info,yuvpath,yuv,homepath,outpath,nome,info)
 			c
@@ -118,9 +118,9 @@ for yuv in yuvs:
 				tlines = test.readlines()
 				tline = tlines[-1]
 				if "Total Time" not in tline:
-					file.write(linha + " && " + linha4)
+					file.write(linha + " && " + linha4 + "\n")
 			except:
-				file.write(linha + " && " + linha4)
+				file.write(linha + " && " + linha4 + "\n")
 
 if gitpull == 1:
 	linhag = "sh %s/%s/%s.sh\n"%(homepath,gitpath,gitscript)
