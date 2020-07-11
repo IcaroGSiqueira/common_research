@@ -184,7 +184,7 @@ if threads >= 1:
 			os.system("mkdir %s/%s/script%d"%(homepath,shpath,x+1))
 		except:
 			pass
-		file2 = open("%s/%s/script%d/%d_%s"%(homepath,shpath,x+1,x+1,filename),"w")
+		file2 = open("%s/%s/script%d/%d_%s"%(homepath,shpath,x+1,x+1,inf),"w")
 		i = x*nqp
 		j=0
 
