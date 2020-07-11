@@ -12,7 +12,7 @@ confs = ["encoder_randomaccess_vtm.cfg"]
 
 minqs = [8,16,32]
 
-OPT = 0 # optimizacoes ligadas = 1
+OPT = 1 # optimizacoes ligadas = 1
 gprof = 0
 
 threads = 4 # numero de processos em parelelo
