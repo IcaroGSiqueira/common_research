@@ -109,63 +109,63 @@ if gprof == 1:
 for conf in confs:
 	for yuv in yuvs:
 		for qp in qps:
-			for minq in minqs:
+			#for minq in minqs:
 
-				print(yuv)
+			print(yuv)
+			try:
+				vid,pix,fr,b,dummy = yuv.split("_")
+				b = b.strip("bit")
+				fr = fr.strip("fps")
+				nome = vid+"_"+pix+"_"+fr+"fps"+"_"+b+"bit"
+			except:
+				vid,pix,fr = yuv.split("_")
+				b = "8"
+				fr = fr.strip(".yuv")
+				nome = vid+"_"+pix+"_"+fr+"fps"+"_"+b+"bit"					
+
+			w,h = pix.split("x")
+
+			if conf == "encoder_randomaccess_vtm.cfg":
+				info = "%sqp_%sfframes_RA_"%(qp,f) + inf
+			elif conf == "encoder_lowdelay_vtm.cfg":
+				info = "%sqp_%sfframes_LD_"%(qp,f) + inf
+			elif conf == "encoder_intra_vtm.cfg":
+				info = "%sqp_%sfframes_IO_"%(qp,f) + inf
+			else:
+				info = "%sqp_%sfframes_"%(qp,f) + inf
+
+			#linha = "%s/%s/%s -c %s/%s/%s -i \"%s/%s\" -fr %s -wdt %s -hgt %s -q %s -f %s --MinQTLumaISlice=%s --MinQTChromaISliceInChromaSamples=%s --MinQTNonISlice=%s --InputBitDepth=%s --SIMD=%s -b \"%s/%s/bin/%s_%s.bin\" "%(homepath,binpath,bina,homepath,confpath,conf,yuvpath,yuv,fr,w,h,qp,f,minq,int(minq/2),minq,b,simd,homepath,outpath,nome,info) # Linha de configuracao da codificacao
+
+			linha = "%s/%s/%s -c %s/%s/%s -i \"%s/%s\" -fr %s -wdt %s -hgt %s -q %s -f %s --InputBitDepth=%s --SIMD=%s -b \"%s/%s/bin/%s_%s.bin\" "%(homepath,binpath,bina,homepath,confpath,conf,yuvpath,yuv,fr,w,h,qp,f,b,simd,homepath,outpath,nome,info) # Linha de configuracao da codificacao
+
+			linha1 = "> %s/%s/out/%s_%s.txt"%(homepath,outpath,nome,info) # linha da saida da codificacao
+
+			# linhas do profiling
+			linha2 = "mv gmon.out %s/%s/gmon/gmon_%s_%s.out"%(homepath,outpath,nome,info)
+			linha3 = "gprof %s/%s/%s %s/%s/gmon/gmon_%s_%s.out > %s/%s/gprof/%s_%s.txt"%(homepath,binpath,bina,homepath,outpath,nome,info,homepath,outpath,nome,info)
+
+			linha4 =  "echo \"%s_%s DONE!\""%(nome,info)
+
+			#VERIFICAR SOBRESCRICAO
+			if gprof == 1:
 				try:
-					vid,pix,fr,b,dummy = yuv.split("_")
-					b = b.strip("bit")
-					fr = fr.strip("fps")
-					nome = vid+"_"+pix+"_"+fr+"fps"+"_"+b+"bit"
-				except:
-					vid,pix,fr = yuv.split("_")
-					b = "8"
-					fr = fr.strip(".yuv")
-					nome = vid+"_"+pix+"_"+fr+"fps"+"_"+b+"bit"					
-
-				w,h = pix.split("x")
-
-				if conf == "encoder_randomaccess_vtm.cfg":
-					info = "%sqp_%sfframes_RA_"%(qp,f) + inf
-				elif conf == "encoder_lowdelay_vtm.cfg":
-					info = "%sqp_%sfframes_LD_"%(qp,f) + inf
-				elif conf == "encoder_intra_vtm.cfg":
-					info = "%sqp_%sfframes_IO_"%(qp,f) + inf
-				else:
-					info = "%sqp_%sfframes_"%(qp,f) + inf
-
-				#linha = "%s/%s/%s -c %s/%s/%s -i \"%s/%s\" -fr %s -wdt %s -hgt %s -q %s -f %s --MinQTLumaISlice=%s --MinQTChromaISliceInChromaSamples=%s --MinQTNonISlice=%s --InputBitDepth=%s --SIMD=%s -b \"%s/%s/bin/%s_%s.bin\" "%(homepath,binpath,bina,homepath,confpath,conf,yuvpath,yuv,fr,w,h,qp,f,minq,int(minq/2),minq,b,simd,homepath,outpath,nome,info) # Linha de configuracao da codificacao
-
-				linha = "%s/%s/%s -c %s/%s/%s -i \"%s/%s\" -fr %s -wdt %s -hgt %s -q %s -f %s --InputBitDepth=%s --SIMD=%s -b \"%s/%s/bin/%s_%s.bin\" "%(homepath,binpath,bina,homepath,confpath,conf,yuvpath,yuv,fr,w,h,qp,f,b,simd,homepath,outpath,nome,info) # Linha de configuracao da codificacao
-
-				linha1 = "> %s/%s/out/%s_%s.txt"%(homepath,outpath,nome,info) # linha da saida da codificacao
-
-				# linhas do profiling
-				linha2 = "mv gmon.out %s/%s/gmon/gmon_%s_%s.out"%(homepath,outpath,nome,info)
-				linha3 = "gprof %s/%s/%s %s/%s/gmon/gmon_%s_%s.out > %s/%s/gprof/%s_%s.txt"%(homepath,binpath,bina,homepath,outpath,nome,info,homepath,outpath,nome,info)
-
-				linha4 =  "echo \"%s_%s DONE!\""%(nome,info)
-
-				#VERIFICAR SOBRESCRICAO
-				if gprof == 1:
-					try:
-						test = open("%s/%s/%s"%(homepath,shpath,filename),"r")
-						tlines = test.readlines()
-						tline = tlines[0]
-						if linha not in tline:
-							file.write(linha + linha1 + " && " + linha4 + "\n")
-					except:
-						file.write(linha + linha1 + " && " + linha2 + " && " + linha3 + " && " + linha4 + "\n")
-
-				else:	
-					try:
-						test = open("%s/%s/%s_%s.txt"%(homepath,outpath,nome,info),"r")
-						tlines = test.readlines()
-						tline = tlines[-1]
-						if "Total Time" not in tline:
-							file.write(linha + linha1 + " && " + linha4 + "\n")
-					except:
+					test = open("%s/%s/%s"%(homepath,shpath,filename),"r")
+					tlines = test.readlines()
+					tline = tlines[0]
+					if linha not in tline:
 						file.write(linha + linha1 + " && " + linha4 + "\n")
+				except:
+					file.write(linha + linha1 + " && " + linha2 + " && " + linha3 + " && " + linha4 + "\n")
+
+			else:	
+				try:
+					test = open("%s/%s/%s_%s.txt"%(homepath,outpath,nome,info),"r")
+					tlines = test.readlines()
+					tline = tlines[-1]
+					if "Total Time" not in tline:
+						file.write(linha + linha1 + " && " + linha4 + "\n")
+				except:
+					file.write(linha + linha1 + " && " + linha4 + "\n")
 
 
 i=0
