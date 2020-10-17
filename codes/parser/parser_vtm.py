@@ -2,8 +2,8 @@ import os
 
 #OPT = 0 # optimizacoes ligadas = 1
 
-pathin = "/home/icaro/pesquisa_ucpel/output_VTM/local/out"
-out = open("/home/icaro/pesquisa_ucpel/output_VTM/local/vtm-brpsnr.csv","w")
+pathin = "/home/icaro/output_VTM/test"
+out = open("/home/icaro/output_VTM/vtm_taps-brpsnr.csv","w")
 #out = open("/home/icaro/output_VTM/local/vtm-noSIMD.csv","w")
 #out = open("/home/grellert/testesVVC/vtm-SIMD.csv","w")
 yuvs = sorted(os.listdir("%s"%pathin))
@@ -17,22 +17,27 @@ for yuv in yuvs:
 	#if "vtmSIMD" in yuv:
 	#if "vtmSIMD" not in yuv:
 		continue
+	if ".bin" in yuv:
+		continue
 
-	file = open("%s/%s"%(pathin,yuv),"r")
-	lines = file.readlines()
-	line = lines[-1]
-	dummy,t = line.split(":")
-	print(t)
-	dummy,t,dummy0 = t.split("]")
-	t,dummy = t.split("sec")
-	t = t.strip(" ")
-	line = lines[-4]
-	fl,r = line.split("a")
-	r = r.strip(" ")
-	br,y,u,v,yuvv = r.split("   ")
-	yuvv = yuvv[:-1]
+	try:
+		file = open("%s/%s"%(pathin,yuv),"r")
+		lines = file.readlines()
+		line = lines[-1]
+		dummy,t = line.split(":")
+		print(t)
+		dummy,t,dummy0 = t.split("]")
+		t,dummy = t.split("sec")
+		t = t.strip(" ")
+		line = lines[-4]
+		fl,r = line.split("a")
+		r = r.strip(" ")
+		br,y,u,v,yuvv = r.split("   ")
+		yuvv = yuvv[:-1]
 
-	print(yuv)
+		print(yuv)
+	except:
+		print("\n Saida Incompleta")
 
 	vid,pix,fr,bit,qp,fl,conf,opt = yuv.split("_")
 	bit = bit.strip("bit")
