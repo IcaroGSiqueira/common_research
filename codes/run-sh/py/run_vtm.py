@@ -15,7 +15,7 @@ minqs = [8,16,32]
 OPT = 1 # optimizacoes ligadas = 1
 gprof = 0
 
-taps = 6
+taps = 8
 
 threads = 4 # numero de processos em parelelo
 
@@ -42,9 +42,9 @@ threads = 4 # numero de processos em parelelo
 
 #yuvshevc = ["RaceHorses_832x480_30.yuv","BasketballDrill_832x480_50.yuv","BQMall_832x480_60.yuv","PartyScene_832x480_50.yuv","BlowingBubbles_416x240_50.yuv","BQSquare_416x240_60.yuv","BasketballPass_416x240_50.yuv","RaceHorses_416x240_30.yuv","BasketballDrive_1920x1080_50.yuv","BQTerrace_1920x1080_60.yuv","Cactus_1920x1080_50.yuv","FourPeople_1280x720_60.yuv","Johnny_1280x720_60.yuv","SlideEditing_1280x720_30.yuv"]	#VVC_HEVC
 
-yuvs = ["RaceHorses_832x480_30.yuv","BasketballDrill_832x480_50.yuv","BQMall_832x480_60.yuv","PartyScene_832x480_50.yuv","BlowingBubbles_416x240_50.yuv","BQSquare_416x240_60.yuv","BasketballPass_416x240_50.yuv","RaceHorses_416x240_30.yuv","BasketballDrive_1920x1080_50.yuv","BQTerrace_1920x1080_60.yuv","Cactus_1920x1080_50.yuv","MarketPlace_1920x1080_60fps_10bit_420.yuv","RitualDance_1920x1080_60fps_10bit_420.yuv","ArenaOfValor_1920x1080_60fps_8bit_420.yuv","BasketballDrillText_832x480_50fps_8bit_420.yuv","SlideShow_1280x720_20fps_8bit_420.yuv","Campfire_3840x2160_30fps_10bit_420.yuv","FourPeople_1280x720_60.yuv","Johnny_1280x720_60.yuv","KristenAndSara_1280x720_60fps_8bit_420.yuv","FoodMarket4_3840x2160_60fps_10bit_420.yuv","Tango2_3840x2160_60fps_10bit_420.yuv","SlideEditing_1280x720_30.yuv","ParkRunning3_3840x2160_50fps_10bit_420.yuv","CatRobot_3840x2160_60fps_10bit_420.yuv","DaylightRoad2_3840x2160_60fps_10bit_420.yuv"]	#VVC
+#yuvs = ["RaceHorses_832x480_30.yuv","BasketballDrill_832x480_50.yuv","BQMall_832x480_60.yuv","PartyScene_832x480_50.yuv","BlowingBubbles_416x240_50.yuv","BQSquare_416x240_60.yuv","BasketballPass_416x240_50.yuv","RaceHorses_416x240_30.yuv","BasketballDrive_1920x1080_50.yuv","BQTerrace_1920x1080_60.yuv","Cactus_1920x1080_50.yuv","MarketPlace_1920x1080_60fps_10bit_420.yuv","RitualDance_1920x1080_60fps_10bit_420.yuv","ArenaOfValor_1920x1080_60fps_8bit_420.yuv","BasketballDrillText_832x480_50fps_8bit_420.yuv","SlideShow_1280x720_20fps_8bit_420.yuv","Campfire_3840x2160_30fps_10bit_420.yuv","FourPeople_1280x720_60.yuv","Johnny_1280x720_60.yuv","KristenAndSara_1280x720_60fps_8bit_420.yuv","FoodMarket4_3840x2160_60fps_10bit_420.yuv","Tango2_3840x2160_60fps_10bit_420.yuv","SlideEditing_1280x720_30.yuv","ParkRunning3_3840x2160_50fps_10bit_420.yuv","CatRobot_3840x2160_60fps_10bit_420.yuv","DaylightRoad2_3840x2160_60fps_10bit_420.yuv"]	#VVC
 
-#yuvs=["BlowingBubbles_416x240_50.yuv"] #test
+yuvs=["FourPeople_1280x720_60.yuv","Johnny_1280x720_60.yuv","KristenAndSara_1280x720_60fps_8bit_420.yuv","FoodMarket4_3840x2160_60fps_10bit_420.yuv","Tango2_3840x2160_60fps_10bit_420.yuv","SlideEditing_1280x720_30.yuv","ParkRunning3_3840x2160_50fps_10bit_420.yuv","CatRobot_3840x2160_60fps_10bit_420.yuv","DaylightRoad2_3840x2160_60fps_10bit_420.yuv"] #test
 
 #homepath = "/home/icaro"
 #yuvpath = "/home/icaro/Videos"
@@ -74,24 +74,47 @@ filename = "run_vtm.sh"
 
 #yuvs = os.listdir("/home/icaro/origCfP")
 
-if OPT == 1:
-	simd = "AVX2"
-	if gprof == 0:
-		#bina = "EncoderAppStatic_std"
-		bina = "EncoderAppStatic"
-		inf = "OPT"
+if taps == 8:
+	if OPT == 1:
+		simd = "AVX2"
+		taps = ""
+		if gprof == 0:
+			#bina = "EncoderAppStatic_std"
+			bina = "EncoderAppStatic"
+			inf = "OPT"
+		else:
+			bina = "EncoderAppStaticd"
+			inf = "gprof_OPT"
 	else:
-		bina = "EncoderAppStaticd"
-		inf = "gprof_OPT"
+		simd = "SCALAR"
+		if gprof == 0:
+			#bina = "EncoderAppStatic_std"
+			bina = "EncoderAppStatic"
+			inf = "noOPT"
+		else:
+			bina = "EncoderAppStaticd"
+			inf = "gprof_noOPT"
 else:
-	simd = "SCALAR"
-	if gprof == 0:
-		#bina = "EncoderAppStatic_std"
-		bina = "EncoderAppStatic"
-		inf = "noOPT"
+	if OPT == 1:
+		simd = "AVX2"
+		taps = "--fme_filter_ntaps=6"
+		if gprof == 0:
+			#bina = "EncoderAppStatic_std"
+			bina = "EncoderAppStatic"
+			inf = "OPT_taps"
+		else:
+			bina = "EncoderAppStaticd"
+			inf = "gprof_OPT_taps"
 	else:
-		bina = "EncoderAppStaticd"
-		inf = "gprof_noOPT"
+		simd = "SCALAR"
+		if gprof == 0:
+			#bina = "EncoderAppStatic_std"
+			bina = "EncoderAppStatic"
+			inf = "noOPT_taps"
+		else:
+			bina = "EncoderAppStaticd"
+			inf = "gprof_noOPT_taps"
+
 
 #file = open("/home/icaro/git_repo/common_research/codes/run-sh/vtm/%s"%filename,"w")
 
@@ -162,7 +185,7 @@ for conf in confs:
 				"CatRobot_3840x2160_60fps_10bit_420.yuv",
 				"DaylightRoad2_3840x2160_60fps_10bit_420.yuv"]:
 
-				linha = "%s/%s -c %s/%s -i \"%s/%s\" -fr %s -wdt %s -hgt %s -q %s -f %s --InputBitDepth=%s --fme_filter_ntaps=%s --SIMD=%s -b \"%s/bin/%s_%s.bin\" "%(binpath,bina,confpath,conf,yuvvvc,yuv,fr,w,h,qp,f,b,taps,simd,outpath,nome,info) # Linha de configuracao da codificacao
+				linha = "%s/%s -c %s/%s -i \"%s/%s\" -fr %s -wdt %s -hgt %s -q %s -f %s --InputBitDepth=%s %s --SIMD=%s -b \"%s/bin/%s_%s.bin\" "%(binpath,bina,confpath,conf,yuvvvc,yuv,fr,w,h,qp,f,b,taps,simd,outpath,nome,info) # Linha de configuracao da codificacao
 
 			elif yuv in ["RaceHorses_832x480_30.yuv",
 				"BasketballDrill_832x480_50.yuv",
@@ -179,7 +202,7 @@ for conf in confs:
 				"Johnny_1280x720_60.yuv",
 				"SlideEditing_1280x720_30.yuv"]:
 
-				linha = "%s/%s -c %s/%s -i \"%s/%s\" -fr %s -wdt %s -hgt %s -q %s -f %s --InputBitDepth=%s --fme_filter_ntaps=%s --SIMD=%s -b \"%s/bin/%s_%s.bin\" "%(binpath,bina,confpath,conf,yuvhevc,yuv,fr,w,h,qp,f,b,taps,simd,outpath,nome,info) # Linha de configuracao da codificacao
+				linha = "%s/%s -c %s/%s -i \"%s/%s\" -fr %s -wdt %s -hgt %s -q %s -f %s --InputBitDepth=%s %s --SIMD=%s -b \"%s/bin/%s_%s.bin\" "%(binpath,bina,confpath,conf,yuvhevc,yuv,fr,w,h,qp,f,b,taps,simd,outpath,nome,info) # Linha de configuracao da codificacao
 
 			linha1 = "> %s/out/%s_%s.txt"%(outpath,nome,info) # linha da saida da codificacao
 
@@ -228,7 +251,7 @@ if threads >= 1:
 			os.system("mkdir %s/script%d"%(shpath,x+1))
 		except:
 			pass
-		file2 = open("%s/script%d/%d_%s_taps.sh"%(shpath,x+1,x+1,inf),"w")
+		file2 = open("%s/script%d/%d_%s.sh"%(shpath,x+1,x+1,inf),"w")
 		i = x*nqp
 		j=0
 
